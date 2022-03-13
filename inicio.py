@@ -28,7 +28,7 @@ bu_baja = Button(root,text="Baja")
 bu_modificar = Button(root,text="Modificar")
 
 bu_alta.grid(row=2,column=6, sticky="e")
-bu_baja.grid(row=3,column=6, sticky="e")
-bu_modificar.grid(row=4,column=6, sticky="e")
+bu_baja.grid(row=4,column=6, sticky="e")
+bu_modificar.grid(row=6,column=6, sticky="e")
 
 root.mainloop()
