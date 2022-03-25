@@ -41,7 +41,13 @@ treeview.grid(column=0, row=4, columnspan=3)
 
 def alta():
     treeview.insert(
-        "", "end", text=var_tipo.get(), values=(var_modelo.get(), var_referencia.get())
+        "",
+        "end",
+        text=var_tipo.get(),
+        values=(
+            var_modelo.get(),
+            var_referencia.get()
+        )
     )
 
 
@@ -52,7 +58,14 @@ def baja():
 
 def modificar():
     item = treeview.focus()
-    treeview.item(item, text=var_tipo.get(), values=(var_modelo.get(), var_referencia.get()))
+    treeview.item(
+        item,
+        text=var_tipo.get(),
+        values=(
+            var_modelo.get(),
+            var_referencia.get()
+        )
+    )
 
 
 bu_alta = Button(root, text="Alta", command=alta)
