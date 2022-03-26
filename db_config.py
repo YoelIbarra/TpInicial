@@ -1,11 +1,12 @@
 import sqlite3
 
+
 def conexion_db():
-    conexion = sqlite3.connect('proyecto.db');
+    conexion = sqlite3.connect('proyecto.db')
     return conexion
 
 
-#Tabla
+# Tabla
 def create_tablas(conexion):
     create_query =  """
                     CREATE TABLE IF NOT EXISTS producto(
@@ -21,25 +22,27 @@ def create_tablas(conexion):
     conexion.commit()
     conexion.close()
 
-#Inserts
 
-def insert_producto(tipo,modelo,referencia): 
-    data = (tipo,modelo,referencia)
+# Inserts
+def insert_producto(tipo, modelo, referencia):
+    data = (tipo, modelo, referencia)
     query = """
             INSERT INTO producto
             (tipo,modelo,referencia)
             VALUES (?,?,?)
             """
-    conexion = conexion_db()        
+    conexion = conexion_db() 
     cursor = conexion.cursor()
-    cursor.execute(query,data)
+    cursor.execute(query, data)
 
     conexion.commit()
     conexion.close()
 
-#updates
-#Posible error: a la hora de mandar el id ya debe ir como un entero al momento de ingresar a la función
-def update_producto(tipo,modelo,referencia,id):
+
+# Updates
+# Posible error: a la hora de mandar el id ya debe ir como un entero
+# al momento de ingresar a la función
+def update_producto(tipo, modelo, referencia, id):
     data = (tipo,modelo,referencia,id)
     query = """
             UPDATE producto
@@ -56,8 +59,10 @@ def update_producto(tipo,modelo,referencia,id):
     conexion.commit()
     conexion.close()
 
-#delete
-#Posible error: a la hora de mandar el id ya debe ir como un entero al momento de ingresar a la función
+
+# Delete
+# Posible error: a la hora de mandar el id ya debe ir como un entero
+# al momento de ingresar a la función
 def delete_producto(id_producto):
     data = (id_producto,)
     query = """
@@ -73,4 +78,4 @@ def delete_producto(id_producto):
     conexion.close()
 
 
-#if(conexion) conexion.close()
+# if(conexion) conexion.close()
