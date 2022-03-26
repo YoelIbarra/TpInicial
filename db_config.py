@@ -8,7 +8,7 @@ def conexion_db():
 
 # Tabla
 def create_tablas(conexion):
-    create_query =  """
+    create_query = """
                     CREATE TABLE IF NOT EXISTS producto(
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         tipo varchar(50) NOT NULL,
@@ -31,7 +31,7 @@ def insert_producto(tipo, modelo, referencia):
             (tipo,modelo,referencia)
             VALUES (?,?,?)
             """
-    conexion = conexion_db() 
+    conexion = conexion_db()
     cursor = conexion.cursor()
     cursor.execute(query, data)
 
@@ -43,7 +43,7 @@ def insert_producto(tipo, modelo, referencia):
 # Posible error: a la hora de mandar el id ya debe ir como un entero
 # al momento de ingresar a la función
 def update_producto(tipo, modelo, referencia, id):
-    data = (tipo,modelo,referencia,id)
+    data = (tipo, modelo, referencia, id)
     query = """
             UPDATE producto
             SET     tipo = ?,
@@ -52,9 +52,9 @@ def update_producto(tipo, modelo, referencia, id):
             WHERE id = ?
             """
 
-    conexion = conexion_db()        
+    conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute(query,data)
+    cursor.execute(query, data)
 
     conexion.commit()
     conexion.close()
@@ -70,9 +70,9 @@ def delete_producto(id_producto):
             WHERE id = ?;
             """
 
-    conexion = conexion_db()        
+    conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute(query,data)
+    cursor.execute(query, data)
 
     conexion.commit()
     conexion.close()
