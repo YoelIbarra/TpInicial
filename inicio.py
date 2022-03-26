@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 
 root = Tk()
+root.title('TP Inicial')
 
 la_titulo_datos = Label(root, text="Ingresar datos nuevos")
 la_tipo = Label(root, text="Tipo")
