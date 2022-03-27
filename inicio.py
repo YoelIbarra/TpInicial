@@ -49,21 +49,21 @@ treeview.grid(column=0, row=4, columnspan=4)
 
 
 def actualizar_treeview():
-    resultados = db.get_registros()    
+    resultados = db.get_registros()
     for item in treeview.get_children():
         treeview.delete(item)
     for resultado in resultados:
         treeview.insert(
-        "",
-        "end",
-        text=resultado[0],
-        values=(
-            resultado[1],
-            resultado[2],
-            resultado[3],
-            resultado[4]
+            "",
+            "end",
+            text=resultado[0],
+            values=(
+                resultado[1],
+                resultado[2],
+                resultado[3],
+                resultado[4]
+            )
         )
-    )
 
 
 def alta():
@@ -81,7 +81,6 @@ def baja():
     id_a_eliminar = treeview.item(focused)['text']
     db.delete_producto(id_a_eliminar)
     actualizar_treeview()
-    
 
 
 def modificar():

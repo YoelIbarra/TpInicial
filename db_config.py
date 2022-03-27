@@ -37,6 +37,7 @@ def get_registros():
 
     return resultados
 
+
 # Inserts
 def insert_producto(tipo, modelo, referencia):
     data = (tipo, modelo, referencia)
