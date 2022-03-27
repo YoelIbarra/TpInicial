@@ -57,29 +57,43 @@ def actualizar_treeview():
         treeview.insert(
             "",
             "end",
-            text=resultado[0], #id
+            text=resultado[0],  # id
             values=(
-                resultado[1], #tipo
-                resultado[2], #modelo
-                resultado[3], #referencia 
-                resultado[4] #fecha_insert
+                resultado[1],  # tipo
+                resultado[2],  # modelo
+                resultado[3],  # referencia
+                resultado[4]  # fecha_insert
             )
         )
 
 
+def alta_en_treeview(id_registro):
+    registro = db.get_registro_by_id(id_registro)
+    treeview.insert(
+        "",
+        "end",
+        text=registro[0][0],  # id
+        values=(
+            registro[0][1],  # tipo
+            registro[0][2],  # modelo
+            registro[0][3],  # referencia
+            registro[0][4]  # fecha_insert
+        )
+    )
+
+
 def alta():
     if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
-        db.insert_producto(
+        id_registro_ingresado = db.insert_producto(
             var_tipo.get(),
             var_modelo.get(),
             var_referencia.get()
         )
-        actualizar_treeview()
+        alta_en_treeview(id_registro_ingresado)
         mensaje = Label(root, text="Ingreso de Dispositivo exitoso")
-        mensaje.grid(row=2, column=5)
     else:
         mensaje = Label(root, text="Tipo no válido, ingrese nuevamente")
-        mensaje.grid(row=2, column=5)
+    mensaje.grid(row=2, column=5)
 
 
 def baja():
