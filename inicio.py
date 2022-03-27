@@ -1,3 +1,4 @@
+import re
 from tkinter import *
 from tkinter import ttk
 import db_config as db
@@ -56,23 +57,29 @@ def actualizar_treeview():
         treeview.insert(
             "",
             "end",
-            text=resultado[0],
+            text=resultado[0], #id
             values=(
-                resultado[1],
-                resultado[2],
-                resultado[3],
-                resultado[4]
+                resultado[1], #tipo
+                resultado[2], #modelo
+                resultado[3], #referencia 
+                resultado[4] #fecha_insert
             )
         )
 
 
 def alta():
-    db.insert_producto(
-        var_tipo.get(),
-        var_modelo.get(),
-        var_referencia.get()
-    )
-    actualizar_treeview()
+    if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
+        db.insert_producto(
+            var_tipo.get(),
+            var_modelo.get(),
+            var_referencia.get()
+        )
+        actualizar_treeview()
+        mensaje = Label(root, text="Ingreso de Dispositivo exitoso")
+        mensaje.grid(row=2, column=5)
+    else:
+        mensaje = Label(root, text="Tipo no válido, ingrese nuevamente")
+        mensaje.grid(row=2, column=5)
 
 
 def baja():
