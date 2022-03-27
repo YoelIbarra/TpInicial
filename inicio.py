@@ -1,5 +1,9 @@
 from tkinter import *
 from tkinter import ttk
+import db_config as db
+
+coneccion = db.conexion_db()
+db.create_tablas(coneccion)
 
 root = Tk()
 root.title('TP Inicial')
@@ -29,44 +33,67 @@ en_referencia.grid(row=1, column=5)
 
 
 treeview = ttk.Treeview(root)
-treeview["columns"] = ("modelo", "referencia")
+treeview["columns"] = ("tipo", "modelo", "referencia", "fecha")
 treeview.column("#0", width=50, minwidth=50, anchor='w')
+treeview.column("tipo", width=80, minwidth=80, anchor='w')
 treeview.column("modelo", width=80, minwidth=80, anchor='w')
 treeview.column("referencia", width=100, minwidth=100, anchor='w')
-treeview.heading("#0", text="Tipo")
+treeview.column("fecha", width=100, minwidth=100, anchor='w')
+treeview.heading("#0", text="Id")
+treeview.heading("tipo", text="Tipo")
 treeview.heading("modelo", text="Modelo")
 treeview.heading("referencia", text="Referencia")
+treeview.heading("fecha", text="Fecha")
 
-treeview.grid(column=0, row=4, columnspan=3)
+treeview.grid(column=0, row=4, columnspan=4)
+
+
+def actualizar_treeview():
+    resultados = db.get_registros()    
+    for item in treeview.get_children():
+        treeview.delete(item)
+    for resultado in resultados:
+        treeview.insert(
+        "",
+        "end",
+        text=resultado[0],
+        values=(
+            resultado[1],
+            resultado[2],
+            resultado[3],
+            resultado[4]
+        )
+    )
 
 
 def alta():
-    treeview.insert(
-        "",
-        "end",
-        text=var_tipo.get(),
-        values=(
-            var_modelo.get(),
-            var_referencia.get()
-        )
+    db.insert_producto(
+        var_tipo.get(),
+        var_modelo.get(),
+        var_referencia.get()
     )
+    actualizar_treeview()
 
 
 def baja():
-    item = treeview.focus()
-    treeview.delete(item)
+    focused = treeview.focus()
+    print(treeview.item(focused))
+    id_a_eliminar = treeview.item(focused)['text']
+    db.delete_producto(id_a_eliminar)
+    actualizar_treeview()
+    
 
 
 def modificar():
-    item = treeview.focus()
-    treeview.item(
-        item,
-        text=var_tipo.get(),
-        values=(
-            var_modelo.get(),
-            var_referencia.get()
-        )
+    focused = treeview.focus()
+    id_a_modificar = treeview.item(focused)['text']
+    db.update_producto(
+        var_tipo.get(),
+        var_modelo.get(),
+        var_referencia.get(),
+        id_a_modificar
     )
+    actualizar_treeview()
 
 
 bu_alta = Button(root, text="Alta", command=alta)
@@ -76,5 +103,7 @@ bu_modificar = Button(root, text="Modificar", command=modificar)
 bu_alta.grid(row=2, column=6, sticky="e")
 bu_baja.grid(row=4, column=6, sticky="e")
 bu_modificar.grid(row=6, column=6, sticky="e")
+
+actualizar_treeview()
 
 root.mainloop()

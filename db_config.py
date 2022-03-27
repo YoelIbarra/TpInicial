@@ -23,6 +23,20 @@ def create_tablas(conexion):
     conexion.close()
 
 
+def get_registros():
+    query = """
+            SELECT * FROM producto
+            """
+    conexion = conexion_db()
+    cursor = conexion.cursor()
+    cursor.execute(query)
+    resultados = cursor.fetchall()
+
+    cursor.close()
+    conexion.close()
+
+    return resultados
+
 # Inserts
 def insert_producto(tipo, modelo, referencia):
     data = (tipo, modelo, referencia)
