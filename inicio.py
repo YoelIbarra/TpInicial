@@ -14,6 +14,9 @@ la_tipo = Label(root, text="Tipo")
 la_modelo = Label(root, text="Modelo")
 la_referencia = Label(root, text="Referencia")
 
+mensaje = Label(root, text = "texto")
+mensaje.grid(row=2,column=5)
+
 
 la_titulo_datos.grid(row=0, columnspan=100)
 la_tipo.grid(row=1, column=0, sticky="e")
@@ -83,6 +86,7 @@ def alta_en_treeview(id_registro):
 
 
 def alta():
+    global mensaje
     if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
         id_registro_ingresado = db.insert_producto(
             var_tipo.get(),
@@ -90,10 +94,10 @@ def alta():
             var_referencia.get()
         )
         alta_en_treeview(id_registro_ingresado)
-        mensaje = Label(root, text="Ingreso de Dispositivo exitoso")
+        mensaje['text']="Ingreso de Dispositivo exitoso"
     else:
-        mensaje = Label(root, text="Tipo no válido, ingrese nuevamente")
-    mensaje.grid(row=2, column=5)
+        mensaje['text']="Tipo no válido, ingrese nuevamente"
+    
 
 
 def baja():
@@ -101,18 +105,23 @@ def baja():
     id_a_eliminar = treeview.item(focused)['text']
     db.delete_producto(id_a_eliminar)
     actualizar_treeview()
+    mensaje['text'] = "Se dio de baja el registro: "+ str(id_a_eliminar)
 
 
 def modificar():
     focused = treeview.focus()
     id_a_modificar = treeview.item(focused)['text']
-    db.update_producto(
-        var_tipo.get(),
-        var_modelo.get(),
-        var_referencia.get(),
-        id_a_modificar
-    )
-    actualizar_treeview()
+    if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
+        db.update_producto(
+            var_tipo.get(),
+            var_modelo.get(),
+            var_referencia.get(),
+            id_a_modificar
+        )
+        actualizar_treeview()
+        mensaje['text']="Actualización de Dispositivo"+ str(id_a_modificar) + " exitosa"
+    else:
+        mensaje['text']="Tipo no válido, ingrese nuevamente"
 
 
 bu_alta = Button(root, text="Alta", command=alta)
