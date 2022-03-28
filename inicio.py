@@ -101,6 +101,7 @@ def alta():
 
 
 def baja():
+    global mensaje
     focused = treeview.focus()
     id_a_eliminar = treeview.item(focused)['text']
     db.delete_producto(id_a_eliminar)
@@ -109,6 +110,7 @@ def baja():
 
 
 def modificar():
+    global mensaje
     focused = treeview.focus()
     id_a_modificar = treeview.item(focused)['text']
     if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
