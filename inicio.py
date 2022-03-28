@@ -97,7 +97,7 @@ def alta():
 
 
 def baja():
-    focused = treeview.focus()    
+    focused = treeview.focus()
     id_a_eliminar = treeview.item(focused)['text']
     db.delete_producto(id_a_eliminar)
     actualizar_treeview()

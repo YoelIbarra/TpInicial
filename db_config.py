@@ -68,7 +68,6 @@ def insert_producto(tipo, modelo, referencia):
     cursor.execute(query, data)
 
     id_registro_ingresado = cursor.lastrowid
-    print('tipo de id_registro_ingresado', type(id_registro_ingresado))
 
     conexion.commit()
     conexion.close()
