@@ -40,15 +40,13 @@ def get_registros():
 
 def get_registro_by_id(id_producto):
     data_id = str(id_producto)
-    print('data_id', data_id)
-    print('type data_id', type(data_id))
     query = """
             SELECT * FROM producto
             WHERE id = ?
             """
     conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute(query, data_id)
+    cursor.execute(query, (data_id,))
     resultado = cursor.fetchall()
 
     cursor.close()
@@ -70,6 +68,7 @@ def insert_producto(tipo, modelo, referencia):
     cursor.execute(query, data)
 
     id_registro_ingresado = cursor.lastrowid
+    print('tipo de id_registro_ingresado', type(id_registro_ingresado))
 
     conexion.commit()
     conexion.close()
