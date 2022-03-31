@@ -14,8 +14,17 @@ la_tipo = Label(root, text="Tipo")
 la_modelo = Label(root, text="Modelo")
 la_referencia = Label(root, text="Referencia")
 
-mensaje = Label(root, text = "texto")
-mensaje.grid(row=2,column=5)
+mensaje = Label(root, text='mensaje')
+mensaje.grid(row=8, column=1)
+
+la_mensaje_tipo = Label(root, text='mensaje tipo')
+la_mensaje_tipo.grid(row=2, column=1)
+
+la_mensaje_modelo = Label(root, text='mensaje modelo')
+la_mensaje_modelo.grid(row=2, column=3)
+
+la_mensaje_referencia = Label(root, text='mensaje referencia')
+la_mensaje_referencia.grid(row=2, column=5)
 
 
 la_titulo_datos.grid(row=0, columnspan=100)
@@ -49,7 +58,7 @@ treeview.heading("modelo", text="Modelo")
 treeview.heading("referencia", text="Referencia")
 treeview.heading("fecha", text="Fecha")
 
-treeview.grid(column=0, row=4, columnspan=4)
+treeview.grid(column=1, row=5, columnspan=4)
 
 
 def actualizar_treeview():
@@ -85,19 +94,48 @@ def alta_en_treeview(id_registro):
     )
 
 
+def validar(entrada, label, f_validacion):
+    return f_validacion(entrada, label)
+
+
+def v_no_tiene_numeros(entrada, label):
+    resultado = re.match(re.compile("^[a-zA-Z]+$"), entrada)
+    if(resultado):
+        label['text'] = 'Ingreso exitoso'
+    else:
+        label['text'] = 'No puede ingresar números'
+    return resultado
+
+
+def v_no_es_vacio(entrada, label):
+    resultado = bool(entrada)
+    if(resultado):
+        label['text'] = 'Ingreso exitoso'
+    else:
+        label['text'] = 'No puede estar vacío'
+    return resultado
+
+
 def alta():
-    global mensaje
-    if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
+    # global mensaje
+    # if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
+    global la_mensaje_tipo
+    global la_mensaje_modelo
+    global la_mensaje_referencia
+
+    valida_tipo = validar(var_tipo.get(), la_mensaje_tipo, v_no_tiene_numeros)
+    valida_modelo = validar(var_modelo.get(), la_mensaje_modelo, v_no_es_vacio)
+    valida_ref = validar(var_referencia.get(), la_mensaje_referencia, v_no_es_vacio)
+    if (valida_tipo and valida_modelo and valida_ref):
         id_registro_ingresado = db.insert_producto(
             var_tipo.get(),
             var_modelo.get(),
             var_referencia.get()
         )
         alta_en_treeview(id_registro_ingresado)
-        mensaje['text']="Ingreso de Dispositivo exitoso"
-    else:
-        mensaje['text']="Tipo no válido, ingrese nuevamente"
-    
+        # mensaje['text'] = "Ingreso de Dispositivo exitoso"
+    # else:
+        # mensaje['text'] = "Tipo no válido, ingrese nuevamente"
 
 
 def baja():
@@ -130,9 +168,9 @@ bu_alta = Button(root, text="Alta", command=alta)
 bu_baja = Button(root, text="Baja", command=baja)
 bu_modificar = Button(root, text="Modificar", command=modificar)
 
-bu_alta.grid(row=2, column=6, sticky="e")
-bu_baja.grid(row=4, column=6, sticky="e")
-bu_modificar.grid(row=6, column=6, sticky="e")
+bu_alta.grid(row=4, column=6, sticky="e")
+bu_baja.grid(row=5, column=6, sticky="e")
+bu_modificar.grid(row=7, column=6, sticky="e")
 
 actualizar_treeview()
 
