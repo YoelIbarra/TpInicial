@@ -14,17 +14,17 @@ la_tipo = Label(root, text="Tipo")
 la_modelo = Label(root, text="Modelo")
 la_referencia = Label(root, text="Referencia")
 
-mensaje = Label(root, text='mensaje')
+mensaje = Label(root)
 mensaje.grid(row=8, column=1)
 
-la_mensaje_tipo = Label(root, text='mensaje tipo')
+la_mensaje_tipo = Label(root)
 la_mensaje_tipo.grid(row=2, column=1)
 
-la_mensaje_modelo = Label(root, text='mensaje modelo')
+la_mensaje_modelo = Label(root)
 la_mensaje_modelo.grid(row=2, column=3)
 
-la_mensaje_referencia = Label(root, text='mensaje referencia')
-la_mensaje_referencia.grid(row=2, column=5)
+la_mensaje_ref = Label(root)
+la_mensaje_ref.grid(row=2, column=5)
 
 
 la_titulo_datos.grid(row=0, columnspan=100)
@@ -34,11 +34,11 @@ la_referencia.grid(row=1, column=4, sticky="e")
 
 var_tipo = StringVar()
 var_modelo = StringVar()
-var_referencia = StringVar()
+var_ref = StringVar()
 
 en_tipo = Entry(root, textvariable=var_tipo, width=25)
 en_modelo = Entry(root, textvariable=var_modelo, width=25)
-en_referencia = Entry(root, textvariable=var_referencia, width=25)
+en_referencia = Entry(root, textvariable=var_ref, width=25)
 
 en_tipo.grid(row=1, column=1)
 en_modelo.grid(row=1, column=3)
@@ -117,25 +117,24 @@ def v_no_es_vacio(entrada, label):
 
 
 def alta():
-    # global mensaje
-    # if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
+    global mensaje
     global la_mensaje_tipo
     global la_mensaje_modelo
-    global la_mensaje_referencia
+    global la_mensaje_ref
 
     valida_tipo = validar(var_tipo.get(), la_mensaje_tipo, v_no_tiene_numeros)
     valida_modelo = validar(var_modelo.get(), la_mensaje_modelo, v_no_es_vacio)
-    valida_ref = validar(var_referencia.get(), la_mensaje_referencia, v_no_es_vacio)
+    valida_ref = validar(var_ref.get(), la_mensaje_ref, v_no_es_vacio)
     if (valida_tipo and valida_modelo and valida_ref):
         id_registro_ingresado = db.insert_producto(
             var_tipo.get(),
             var_modelo.get(),
-            var_referencia.get()
+            var_ref.get()
         )
         alta_en_treeview(id_registro_ingresado)
-        # mensaje['text'] = "Ingreso de Dispositivo exitoso"
-    # else:
-        # mensaje['text'] = "Tipo no válido, ingrese nuevamente"
+        mensaje['text'] = "Ingreso de Dispositivo exitoso"
+    else:
+        mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
 
 
 def baja():
@@ -144,24 +143,33 @@ def baja():
     id_a_eliminar = treeview.item(focused)['text']
     db.delete_producto(id_a_eliminar)
     actualizar_treeview()
-    mensaje['text'] = "Se dio de baja el registro: "+ str(id_a_eliminar)
+    mensaje['text'] = "Se dio de baja el registro: " + str(id_a_eliminar)
 
 
 def modificar():
     global mensaje
+    global la_mensaje_tipo
+    global la_mensaje_modelo
+    global la_mensaje_ref
+
     focused = treeview.focus()
     id_a_modificar = treeview.item(focused)['text']
-    if (re.match(re.compile("^[a-zA-Z]+$"), var_tipo.get())):
+
+    valida_tipo = validar(var_tipo.get(), la_mensaje_tipo, v_no_tiene_numeros)
+    valida_modelo = validar(var_modelo.get(), la_mensaje_modelo, v_no_es_vacio)
+    valida_ref = validar(var_ref.get(), la_mensaje_ref, v_no_es_vacio)
+    if (valida_tipo and valida_modelo and valida_ref):
         db.update_producto(
             var_tipo.get(),
             var_modelo.get(),
-            var_referencia.get(),
+            var_ref.get(),
             id_a_modificar
         )
         actualizar_treeview()
-        mensaje['text']="Actualización de Dispositivo"+ str(id_a_modificar) + " exitosa"
+        mensaje['text'] = "Actualización de Dispositivo exitosa"
+        + str(id_a_modificar) + " exitosa"
     else:
-        mensaje['text']="Tipo no válido, ingrese nuevamente"
+        mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
 
 
 bu_alta = Button(root, text="Alta", command=alta)
