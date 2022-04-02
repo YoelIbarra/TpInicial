@@ -142,8 +142,18 @@ def baja():
     focused = treeview.focus()
     id_a_eliminar = treeview.item(focused)['text']
     db.delete_producto(id_a_eliminar)
-    actualizar_treeview()
+    treeview.delete(focused)
     mensaje['text'] = "Se dio de baja el registro: " + str(id_a_eliminar)
+
+
+def modificar_en_treeview(item_a_modificar):
+    nuevo_registro = (
+        var_tipo.get(),
+        var_modelo.get(),
+        var_ref.get(),
+        treeview.item(item_a_modificar)['values'][3]
+    )
+    treeview.item(item_a_modificar, values=nuevo_registro)
 
 
 def modificar():
@@ -158,6 +168,7 @@ def modificar():
     valida_tipo = validar(var_tipo.get(), la_mensaje_tipo, v_no_tiene_numeros)
     valida_modelo = validar(var_modelo.get(), la_mensaje_modelo, v_no_es_vacio)
     valida_ref = validar(var_ref.get(), la_mensaje_ref, v_no_es_vacio)
+
     if (valida_tipo and valida_modelo and valida_ref):
         db.update_producto(
             var_tipo.get(),
@@ -165,9 +176,8 @@ def modificar():
             var_ref.get(),
             id_a_modificar
         )
-        actualizar_treeview()
-        mensaje['text'] = "Actualización de Dispositivo exitosa"
-        + str(id_a_modificar) + " exitosa"
+        modificar_en_treeview(focused)
+        mensaje['text'] = "Actualización del Dispositivo " + str(id_a_modificar) + " exitosa"
     else:
         mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
 
