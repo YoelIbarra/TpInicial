@@ -2,14 +2,16 @@ import re
 from tkinter import *
 from tkinter import ttk
 import db_config as db
+import tkinter.font as tkFont
 
 coneccion = db.conexion_db()
 db.create_tablas(coneccion)
 
 root = Tk()
-root.title('TP Inicial')
+root.geometry("650x350")
+root.title('Aplicación para Reparaciones')
 
-la_titulo_datos = Label(root, text="Ingresar datos nuevos")
+la_titulo_datos = Label(root, text="Ingresar datos del dispositivo", font= tkFont.Font(family="Lucida Grande", size=15))
 la_tipo = Label(root, text="Tipo")
 la_modelo = Label(root, text="Modelo")
 la_referencia = Label(root, text="Referencia")
@@ -182,13 +184,16 @@ def modificar():
         mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
 
 
-bu_alta = Button(root, text="Alta", command=alta)
-bu_baja = Button(root, text="Baja", command=baja)
-bu_modificar = Button(root, text="Modificar", command=modificar)
+bu_alta = Button(root, text="Alta", command=alta, bg='light blue', height=1, width=10)
+bu_alta.place(x=500, y=80)
+bu_baja = Button(root, text="Baja", command=baja, bg='light blue', height=1, width=10)
+bu_baja.place(x=500, y=160)
+bu_modificar = Button(root, text="Modificar", command=modificar, bg='light blue', height=1, width=10)
+bu_modificar.place(x=500, y=240)
 
-bu_alta.grid(row=4, column=6, sticky="e")
-bu_baja.grid(row=5, column=6, sticky="e")
-bu_modificar.grid(row=7, column=6, sticky="e")
+#bu_alta.grid(row=4, column=5)
+#bu_baja.grid(row=5, column=5)
+#bu_modificar.grid(row=7, column=5)
 
 actualizar_treeview()
 
