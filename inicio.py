@@ -8,7 +8,7 @@ coneccion = db.conexion_db()
 db.create_tablas(coneccion)
 
 root = Tk()
-root.geometry("650x350")
+root.geometry("750x350")
 root.title('Aplicación para Reparaciones')
 
 la_titulo_datos = Label(root, text="Ingresar datos del dispositivo", font= tkFont.Font(family="Lucida Grande", size=15))
@@ -52,8 +52,8 @@ treeview["columns"] = ("tipo", "modelo", "referencia", "fecha")
 treeview.column("#0", width=50, minwidth=50, anchor='w')
 treeview.column("tipo", width=80, minwidth=80, anchor='w')
 treeview.column("modelo", width=80, minwidth=80, anchor='w')
-treeview.column("referencia", width=100, minwidth=100, anchor='w')
-treeview.column("fecha", width=100, minwidth=100, anchor='w')
+treeview.column("referencia", width=150, minwidth=100, anchor='w')
+treeview.column("fecha", width=150, minwidth=100, anchor='w')
 treeview.heading("#0", text="Id")
 treeview.heading("tipo", text="Tipo")
 treeview.heading("modelo", text="Modelo")
@@ -185,15 +185,11 @@ def modificar():
 
 
 bu_alta = Button(root, text="Alta", command=alta, bg='light blue', height=1, width=10)
-bu_alta.place(x=500, y=80)
+bu_alta.place(x=600, y=80)
 bu_baja = Button(root, text="Baja", command=baja, bg='light blue', height=1, width=10)
-bu_baja.place(x=500, y=160)
+bu_baja.place(x=600, y=160)
 bu_modificar = Button(root, text="Modificar", command=modificar, bg='light blue', height=1, width=10)
-bu_modificar.place(x=500, y=240)
-
-#bu_alta.grid(row=4, column=5)
-#bu_baja.grid(row=5, column=5)
-#bu_modificar.grid(row=7, column=5)
+bu_modificar.place(x=600, y=240)
 
 actualizar_treeview()
 
