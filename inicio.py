@@ -2,9 +2,12 @@ import re
 from tkinter import *
 from tkinter import ttk
 import db_config as db
+import datetime as date
 
 coneccion = db.conexion_db()
 db.create_tablas(coneccion)
+
+print(date.datetime.now())
 
 root = Tk()
 root.title('TP Inicial')
@@ -51,7 +54,7 @@ treeview.column("#0", width=50, minwidth=50, anchor='w')
 treeview.column("tipo", width=80, minwidth=80, anchor='w')
 treeview.column("modelo", width=80, minwidth=80, anchor='w')
 treeview.column("referencia", width=100, minwidth=100, anchor='w')
-treeview.column("fecha", width=100, minwidth=100, anchor='w')
+treeview.column("fecha", width=400, minwidth=400, anchor='w')
 treeview.heading("#0", text="Id")
 treeview.heading("tipo", text="Tipo")
 treeview.heading("modelo", text="Modelo")
@@ -77,21 +80,6 @@ def actualizar_treeview():
                 resultado[4]  # fecha_insert
             )
         )
-
-
-def alta_en_treeview(id_registro):
-    registro = db.get_registro_by_id(id_registro)
-    treeview.insert(
-        "",
-        "end",
-        text=registro[0][0],  # id
-        values=(
-            registro[0][1],  # tipo
-            registro[0][2],  # modelo
-            registro[0][3],  # referencia
-            registro[0][4]  # fecha_insert
-        )
-    )
 
 
 def validar(entrada, label, f_validacion):
@@ -126,12 +114,24 @@ def alta():
     valida_modelo = validar(var_modelo.get(), la_mensaje_modelo, v_no_es_vacio)
     valida_ref = validar(var_ref.get(), la_mensaje_ref, v_no_es_vacio)
     if (valida_tipo and valida_modelo and valida_ref):
+        fecha_ingeso = date.datetime.now()
         id_registro_ingresado = db.insert_producto(
             var_tipo.get(),
             var_modelo.get(),
-            var_ref.get()
+            var_ref.get(),
+            fecha_ingeso
         )
-        alta_en_treeview(id_registro_ingresado)
+        treeview.insert(
+            "",
+            "end",
+            text=id_registro_ingresado,
+            values=(
+                var_tipo.get(),
+                var_modelo.get(),
+                var_ref.get(),
+                fecha_ingeso
+            )
+        )
         mensaje['text'] = "Ingreso de Dispositivo exitoso"
     else:
         mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
@@ -147,11 +147,13 @@ def baja():
 
 
 def modificar_en_treeview(item_a_modificar):
+    # para no actualizar la fecha cuando se modifica el registro
+    fecha_existente = treeview.item(item_a_modificar)['values'][3]
     nuevo_registro = (
         var_tipo.get(),
         var_modelo.get(),
         var_ref.get(),
-        treeview.item(item_a_modificar)['values'][3]
+        fecha_existente
     )
     treeview.item(item_a_modificar, values=nuevo_registro)
 
