@@ -1,14 +1,12 @@
 import re
 from tkinter import *
 from tkinter import ttk
+import tkinter.font as tkFont
 import db_config as db
 import datetime as date
-import tkinter.font as tkFont
 
 coneccion = db.conexion_db()
 db.create_tablas(coneccion)
-
-print(date.datetime.now())
 
 root = Tk()
 root.geometry("750x350")
