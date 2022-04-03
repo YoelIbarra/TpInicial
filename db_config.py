@@ -1,6 +1,5 @@
 import sqlite3
 
-
 def conexion_db():
     conexion = sqlite3.connect('proyecto2.db')
     return conexion
@@ -76,8 +75,6 @@ def insert_producto(tipo, modelo, referencia, fecha):
 
 
 # Updates
-# Posible error: a la hora de mandar el id ya debe ir como un entero
-# al momento de ingresar a la función
 def update_producto(tipo, modelo, referencia, id):
     data = (tipo, modelo, referencia, id)
     query = """
@@ -97,8 +94,6 @@ def update_producto(tipo, modelo, referencia, id):
 
 
 # Delete
-# Posible error: a la hora de mandar el id ya debe ir como un entero
-# al momento de ingresar a la función
 def delete_producto(id_producto):
     data = (id_producto,)
     query = """
