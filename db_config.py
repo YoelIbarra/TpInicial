@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def conexion_db():
     conexion = sqlite3.connect('proyecto2.db')
     return conexion
@@ -107,6 +108,3 @@ def delete_producto(id_producto):
 
     conexion.commit()
     conexion.close()
-
-
-# if(conexion) conexion.close()
