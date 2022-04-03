@@ -64,6 +64,28 @@ treeview.heading("fecha", text="Fecha")
 treeview.grid(column=1, row=5, columnspan=4)
 
 
+def on_tree_row_clicked(event):
+    global var_tipo, var_modelo, var_ref
+
+    focused = treeview.focus()
+    valores = treeview.item(focused)['values']
+
+    var_tipo.set(valores[0])
+    var_modelo.set(valores[1])
+    var_ref.set(valores[2])
+
+
+def resetear_inputs():
+    global var_tipo, var_modelo, var_ref
+
+    var_tipo.set('')
+    var_modelo.set('')
+    var_ref.set('')
+
+
+treeview.bind("<ButtonRelease-1>", on_tree_row_clicked)
+
+
 def actualizar_treeview():
     resultados = db.get_registros()
     for item in treeview.get_children():
@@ -88,18 +110,14 @@ def validar(entrada, label, f_validacion):
 
 def v_no_tiene_numeros(entrada, label):
     resultado = re.match(re.compile("^[a-zA-Z]+$"), entrada)
-    if(resultado):
-        label['text'] = 'Ingreso exitoso'
-    else:
+    if(not resultado):
         label['text'] = 'No puede ingresar números'
     return resultado
 
 
 def v_no_es_vacio(entrada, label):
     resultado = bool(entrada)
-    if(resultado):
-        label['text'] = 'Ingreso exitoso'
-    else:
+    if(not resultado):
         label['text'] = 'No puede estar vacío'
     return resultado
 
@@ -133,6 +151,7 @@ def alta():
             )
         )
         mensaje['text'] = "Ingreso de Dispositivo exitoso"
+        resetear_inputs()
     else:
         mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
 
@@ -144,6 +163,7 @@ def baja():
     db.delete_producto(id_a_eliminar)
     treeview.delete(focused)
     mensaje['text'] = "Se dio de baja el registro: " + str(id_a_eliminar)
+    resetear_inputs()
 
 
 def modificar_en_treeview(item_a_modificar):
