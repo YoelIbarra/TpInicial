@@ -1,8 +1,9 @@
 import re
 from tkinter import *
 from tkinter import ttk
-import db_config as db
 import tkinter.font as tkFont
+import db_config as db
+import datetime as date
 
 coneccion = db.conexion_db()
 db.create_tablas(coneccion)
@@ -63,6 +64,28 @@ treeview.heading("fecha", text="Fecha")
 treeview.grid(column=1, row=5, columnspan=4)
 
 
+def on_tree_row_clicked(event):
+    global var_tipo, var_modelo, var_ref
+
+    focused = treeview.focus()
+    valores = treeview.item(focused)['values']
+
+    var_tipo.set(valores[0])
+    var_modelo.set(valores[1])
+    var_ref.set(valores[2])
+
+
+def resetear_inputs():
+    global var_tipo, var_modelo, var_ref
+
+    var_tipo.set('')
+    var_modelo.set('')
+    var_ref.set('')
+
+
+treeview.bind("<ButtonRelease-1>", on_tree_row_clicked)
+
+
 def actualizar_treeview():
     resultados = db.get_registros()
     for item in treeview.get_children():
@@ -81,39 +104,20 @@ def actualizar_treeview():
         )
 
 
-def alta_en_treeview(id_registro):
-    registro = db.get_registro_by_id(id_registro)
-    treeview.insert(
-        "",
-        "end",
-        text=registro[0][0],  # id
-        values=(
-            registro[0][1],  # tipo
-            registro[0][2],  # modelo
-            registro[0][3],  # referencia
-            registro[0][4]  # fecha_insert
-        )
-    )
-
-
 def validar(entrada, label, f_validacion):
     return f_validacion(entrada, label)
 
 
 def v_no_tiene_numeros(entrada, label):
     resultado = re.match(re.compile("^[a-zA-Z]+$"), entrada)
-    if(resultado):
-        label['text'] = 'Ingreso exitoso'
-    else:
+    if(not resultado):
         label['text'] = 'No puede ingresar números'
     return resultado
 
 
 def v_no_es_vacio(entrada, label):
     resultado = bool(entrada)
-    if(resultado):
-        label['text'] = 'Ingreso exitoso'
-    else:
+    if(not resultado):
         label['text'] = 'No puede estar vacío'
     return resultado
 
@@ -128,13 +132,26 @@ def alta():
     valida_modelo = validar(var_modelo.get(), la_mensaje_modelo, v_no_es_vacio)
     valida_ref = validar(var_ref.get(), la_mensaje_ref, v_no_es_vacio)
     if (valida_tipo and valida_modelo and valida_ref):
+        fecha_ingeso = date.datetime.now()
         id_registro_ingresado = db.insert_producto(
             var_tipo.get(),
             var_modelo.get(),
-            var_ref.get()
+            var_ref.get(),
+            fecha_ingeso
         )
-        alta_en_treeview(id_registro_ingresado)
+        treeview.insert(
+            "",
+            "end",
+            text=id_registro_ingresado,
+            values=(
+                var_tipo.get(),
+                var_modelo.get(),
+                var_ref.get(),
+                fecha_ingeso
+            )
+        )
         mensaje['text'] = "Ingreso de Dispositivo exitoso"
+        resetear_inputs()
     else:
         mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
 
@@ -146,14 +163,17 @@ def baja():
     db.delete_producto(id_a_eliminar)
     treeview.delete(focused)
     mensaje['text'] = "Se dio de baja el registro: " + str(id_a_eliminar)
+    resetear_inputs()
 
 
 def modificar_en_treeview(item_a_modificar):
+    # para no actualizar la fecha cuando se modifica el registro
+    fecha_existente = treeview.item(item_a_modificar)['values'][3]
     nuevo_registro = (
         var_tipo.get(),
         var_modelo.get(),
         var_ref.get(),
-        treeview.item(item_a_modificar)['values'][3]
+        fecha_existente
     )
     treeview.item(item_a_modificar, values=nuevo_registro)
 

@@ -1,7 +1,8 @@
 import sqlite3
 
+
 def conexion_db():
-    conexion = sqlite3.connect('proyecto.db')
+    conexion = sqlite3.connect('proyecto2.db')
     return conexion
 
 
@@ -13,7 +14,7 @@ def create_tablas(conexion):
                         tipo varchar(50) NOT NULL,
                         modelo varchar(50) NOT NULL,
                         referencia varchar(255) NOT NULL,
-                        fecha_insert DATETIME DEFAULT CURRENT_TIMESTAMP
+                        fecha_insert DATETIME NOT NULL
                     )
                     """
     cursor = conexion.cursor()
@@ -55,12 +56,12 @@ def get_registro_by_id(id_producto):
 
 
 # Inserts
-def insert_producto(tipo, modelo, referencia):
-    data = (tipo, modelo, referencia)
+def insert_producto(tipo, modelo, referencia, fecha):
+    data = (tipo, modelo, referencia, fecha)
     query = """
             INSERT INTO producto
-            (tipo,modelo,referencia)
-            VALUES (?,?,?)
+            (tipo,modelo,referencia,fecha_insert)
+            VALUES (?,?,?,?)
             """
     conexion = conexion_db()
     cursor = conexion.cursor()
@@ -107,6 +108,3 @@ def delete_producto(id_producto):
 
     conexion.commit()
     conexion.close()
-
-
-# if(conexion) conexion.close()
