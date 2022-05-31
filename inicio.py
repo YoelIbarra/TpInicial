@@ -2,7 +2,7 @@ import re
 from tkinter import *
 from tkinter import ttk
 import tkinter.font as tkFont
-import db_config as db
+import model.db_config as db
 import datetime as date
 
 coneccion = db.conexion_db()
