@@ -159,7 +159,6 @@ class View():
 
 # treeview.bind("<ButtonRelease-1>", on_tree_row_clicked)
 
-
 # def alta():
 #     global mensaje
 #     global la_mensaje_tipo
