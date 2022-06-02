@@ -17,12 +17,12 @@ class View():
         self.controller = controller
         self.root = tk.Tk()
 
-        self.init_root()
+        self._init_root()
 
     def show_view(self):
         self.root.mainloop()
 
-    def init_root(self):
+    def _init_root(self):
 
         self.root.geometry("750x350")
         self.root.title('Aplicación para Reparaciones')
