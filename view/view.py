@@ -5,7 +5,6 @@ from tkinter import Entry
 from tkinter import StringVar
 from tkinter import Button
 import tkinter.font as tkFont
-# import re
 # import datetime as date
 
 
