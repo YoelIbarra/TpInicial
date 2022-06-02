@@ -11,3 +11,15 @@ class Controller():
 
     def show_view(self):
         self.view.show_view()
+
+    def get_registers(self):
+        self.model.get_products()
+
+    def insert_product(self, product):
+        self.model.insert_product(product)
+
+    def delete_product(self, product_id):
+        self.model.delete_product(product_id)
+
+    def update_product(self, product):
+        self.model.update_product(product)

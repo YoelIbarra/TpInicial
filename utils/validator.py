@@ -8,5 +8,5 @@ class Validator():
         return not len(field.strip())
 
     @staticmethod
-    def has_no_numbers_validation(field):
+    def has_numbers_validation(field):
         return bool(re.match(re.compile("^[a-zA-Z]+$"), field))

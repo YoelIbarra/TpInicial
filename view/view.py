@@ -125,63 +125,39 @@ class View():
 
         self.root.bu_modificar.place(x=600, y=240)
 
+        self._update_treeview()
 
-# def on_tree_row_clicked(event):
-#     global var_tipo, var_modelo, var_ref
+    def _on_tree_row_clicked(self):
+        focused = self.root.treeview.focus()
+        valores = self.root.treeview.item(focused)['values']
 
-#     focused = treeview.focus()
-#     valores = treeview.item(focused)['values']
+        self.root.var_tipo.set(valores[0])
+        self.root.var_modelo.set(valores[1])
+        self.root.var_ref.set(valores[2])
 
-#     var_tipo.set(valores[0])
-#     var_modelo.set(valores[1])
-#     var_ref.set(valores[2])
+    def _resetear_inputs(self):
+        self.root.var_tipo.set('')
+        self.root.var_modelo.set('')
+        self.root.var_ref.set('')
 
-
-# def resetear_inputs():
-#     global var_tipo, var_modelo, var_ref
-
-#     var_tipo.set('')
-#     var_modelo.set('')
-#     var_ref.set('')
-
+    def _update_treeview(self):
+        resultados = self.controller.get_registros()
+        for item in self.root.treeview.get_children():
+            self.root.treeview.delete(item)
+        for resultado in resultados:
+            self.root.treeview.insert(
+                "",
+                "end",
+                text=resultado[0],  # id
+                values=(
+                    resultado[1],  # tipo
+                    resultado[2],  # modelo
+                    resultado[3],  # referencia
+                    resultado[4]  # fecha_insert
+                )
+            )
 
 # treeview.bind("<ButtonRelease-1>", on_tree_row_clicked)
-
-
-# def actualizar_treeview():
-#     resultados = db.get_registros()
-#     for item in treeview.get_children():
-#         treeview.delete(item)
-#     for resultado in resultados:
-#         treeview.insert(
-#             "",
-#             "end",
-#             text=resultado[0],  # id
-#             values=(
-#                 resultado[1],  # tipo
-#                 resultado[2],  # modelo
-#                 resultado[3],  # referencia
-#                 resultado[4]  # fecha_insert
-#             )
-#         )
-
-
-# def validar(entrada, label, f_validacion):
-#     return f_validacion(entrada, label)
-
-
-# def v_no_tiene_numeros(entrada, label):
-#     resultado = re.match(re.compile("^[a-zA-Z]+$"), entrada)
-#     if(not resultado):
-#         label['text'] = 'No puede ingresar números'
-#     return resultado
-
-
-# def v_no_es_vacio(entrada, label):
-#     resultado = bool(entrada)
-#     if(not resultado):
-#         label['text'] = 'No puede estar vacío'
-#     return resultado
 
 
 # def alta():
