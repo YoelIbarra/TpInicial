@@ -1,6 +1,8 @@
 
 from view.view import View
-from model.model import Product
+from model.class_product import Product
+#
+import model.db_config
 
 
 class Controller():
