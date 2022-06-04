@@ -6,7 +6,7 @@ from tkinter import StringVar
 from tkinter import Button
 from utils.validator import Validator
 import tkinter.font as tkFont
-import datetime as date
+# import datetime as date
 
 
 class View():
