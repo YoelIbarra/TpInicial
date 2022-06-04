@@ -176,24 +176,14 @@ class View():
                         self.root.var_ref.get(),
                         self.root.label_mensaje_ref)
         if (valida_tipo and valida_modelo and valida_ref):
-            fecha_ingeso = date.datetime.now()
-            id_registro_ingresado = self.controller.insert_product(
+            # fecha_ingeso = date.datetime.now()
+            self.controller.insert_product(
                 self.root.var_tipo.get(),
                 self.root.var_modelo.get(),
-                self.root.var_ref.get(),
-                fecha_ingeso
+                self.root.var_ref.get()
+                # fecha_ingeso
             )
-            self.root.treeview.insert(
-                "",
-                "end",
-                text=id_registro_ingresado,
-                values=(
-                    self.root.var_tipo.get(),
-                    self.root.var_modelo.get(),
-                    self.root.var_ref.get(),
-                    fecha_ingeso
-                )
-            )
+            self._update_treeview()
             self.root.label_mensaje['text'] = "Ingreso de Dispositivo exitoso"
             self._resetear_inputs()
             self._resetear_labels()
@@ -207,17 +197,6 @@ class View():
         self.root.treeview.delete(focused)
         self.root.label_mensaje['text'] = "Se dio de baja el registro: " + str(id_a_eliminar)
         self._resetear_inputs()
-
-    def _modificar_en_treeview(self, item_a_modificar):
-        # para no actualizar la fecha cuando se modifica el registro
-        fecha_existente = self.root.treeview.item(item_a_modificar)['values'][3]
-        nuevo_registro = (
-            self.root.var_tipo.get(),
-            self.root.var_modelo.get(),
-            self.root.var_ref.get(),
-            fecha_existente
-        )
-        self.root.treeview.item(item_a_modificar, values=nuevo_registro)
 
     def _edit_product(self):
         focused = self.root.treeview.focus()
@@ -235,12 +214,12 @@ class View():
 
         if (valida_tipo and valida_modelo and valida_ref):
             self.controller.update_product(
+                id_a_modificar,
                 self.root.var_tipo.get(),
                 self.root.var_modelo.get(),
-                self.root.var_ref.get(),
-                id_a_modificar
+                self.root.var_ref.get()
             )
-            self._modificar_en_treeview(focused)
+            self._update_treeview()
             self.root.label_mensaje['text'] = "Actualización del Dispositivo " + str(id_a_modificar) + " exitosa"
         else:
             self.root.label_mensaje['text'] = "Error en los datos ingresados, intente nuevamente."

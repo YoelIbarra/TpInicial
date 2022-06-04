@@ -22,14 +22,13 @@ class Product(BaseModel):
         return result
 
     @staticmethod
-    def insert_product(p_type, p_model, p_reference, p_date):
+    def insert_product(p_type, p_model, p_reference):
         product = Product()
         product.type = p_type
         product.model = p_model
         product.reference = p_reference
-        product.insert = p_date
+        # product.insert = p_date
         product.save()
-        return product.id
 
     @staticmethod
     def update_product(id, p_type, p_model, p_reference):

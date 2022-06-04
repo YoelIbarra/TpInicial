@@ -16,11 +16,11 @@ class Controller():
     def get_registers(self):
         return self.model.get_products()
 
-    def insert_product(self, tipo, modelo, referencia, fecha):
-        return self.model.insert_product(tipo, modelo, referencia, fecha)
+    def insert_product(self, tipo, modelo, referencia):
+        self.model.insert_product(tipo, modelo, referencia)
 
     def delete_product(self, product_id):
         self.model.delete_product(product_id)
 
-    def update_product(self, product):
-        self.model.update_product(product)
+    def update_product(self, product_id, tipo, modelo, referencia):
+        self.model.update_product(product_id, tipo, modelo, referencia)
