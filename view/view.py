@@ -128,7 +128,7 @@ class View():
 
         self.root.bu_modificar.place(x=600, y=240)
         self.root.treeview.bind("<ButtonRelease-1>", self._on_tree_row_clicked)
-        # self._update_treeview()
+        self._update_treeview()
 
     def _on_tree_row_clicked(self, event):
         focused = self.root.treeview.focus()
@@ -156,12 +156,12 @@ class View():
             self.root.treeview.insert(
                 "",
                 "end",
-                text=resultado[0],  # id
+                text=resultado.id,  # id
                 values=(
-                    resultado[1],  # tipo
-                    resultado[2],  # modelo
-                    resultado[3],  # referencia
-                    resultado[4]  # fecha_insert
+                    resultado.type,  # tipo
+                    resultado.model,  # modelo
+                    resultado.reference  # referencia
+                    # resultado[4]  # fecha_insert
                 )
             )
 
