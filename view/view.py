@@ -128,7 +128,7 @@ class View():
 
         self.root.bu_modificar.place(x=600, y=240)
         self.root.treeview.bind("<ButtonRelease-1>", self._on_tree_row_clicked)
-        self._update_treeview()
+        # self._update_treeview()
 
     def _on_tree_row_clicked(self, event):
         focused = self.root.treeview.focus()

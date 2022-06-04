@@ -1,5 +1,5 @@
-from genericpath import exists
-from peewee import *
+# from genericpath import exists
+from peewee import SqliteDatabase
 from model.class_product import Product
 
 database = SqliteDatabase('prueba.db')

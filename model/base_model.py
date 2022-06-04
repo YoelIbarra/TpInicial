@@ -1,14 +1,15 @@
-from math import prod
-from peewee import *
-import datetime as date
+# from math import prod
+from peewee import Model
+from peewee import SqliteDatabase
+# import datetime as date
 
 
 class BaseModel(Model):
     class Meta:
         database = SqliteDatabase('prueba.db')
 
-#Para porbar que anda el insert.
-#insert_product('asd2','asd2','asda3e')
+#   Para porbar que anda el insert.
+#   nsert_product('asd2','asd2','asda3e')
 
 
 """
@@ -39,6 +40,6 @@ try:
     if(select_product_id(1)):
         print("esta")
 except:
-    print("no esta")   
+    print("no esta")
 
     """
