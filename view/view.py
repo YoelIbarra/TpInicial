@@ -147,20 +147,23 @@ class View():
         self.root.label_mensaje_ref['text'] = ''
 
     def _update_treeview(self):
-        resultados = self.controller.get_registers()
-        for item in self.root.treeview.get_children():
-            self.root.treeview.delete(item)
-        for resultado in resultados:
-            self.root.treeview.insert(
-                "",
-                "end",
-                text=resultado.id,  # id
-                values=(
-                    resultado.type,  # tipo
-                    resultado.model,  # modelo
-                    resultado.reference  # referencia
+        try:
+            resultados = self.controller.get_registers()
+            for item in self.root.treeview.get_children():
+                self.root.treeview.delete(item)
+            for resultado in resultados:
+                self.root.treeview.insert(
+                    "",
+                    "end",
+                    text=resultado.id,  # id
+                    values=(
+                        resultado.type,  # tipo
+                        resultado.model,  # modelo
+                        resultado.reference  # referencia
+                    )
                 )
-            )
+        except Exception:
+            self.root.label_mensaje['text'] = "Se ha producido un error, intente nuevamente"
 
     def _create_product(self):
         valida_tipo = self.validator.has_numbers_validation(
@@ -173,25 +176,31 @@ class View():
                         self.root.var_ref.get(),
                         self.root.label_mensaje_ref)
         if (valida_tipo and valida_modelo and valida_ref):
-            self.controller.insert_product(
-                self.root.var_tipo.get(),
-                self.root.var_modelo.get(),
-                self.root.var_ref.get()
-            )
-            self._update_treeview()
-            self.root.label_mensaje['text'] = "Ingreso de Dispositivo exitoso"
-            self._resetear_inputs()
-            self._resetear_labels()
+            try:
+                self.controller.insert_product(
+                    self.root.var_tipo.get(),
+                    self.root.var_modelo.get(),
+                    self.root.var_ref.get()
+                )
+                self._update_treeview()
+                self.root.label_mensaje['text'] = "Ingreso de Dispositivo exitoso"
+                self._resetear_inputs()
+                self._resetear_labels()
+            except Exception:
+                self.root.label_mensaje['text'] = "Se ha producido un error al ingresar un producto, intente nuevamente."
         else:
             self.root.label_mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
 
     def _delete_product(self):
-        focused = self.root.treeview.focus()
-        id_a_eliminar = self.root.treeview.item(focused)['text']
-        self.controller.delete_product(id_a_eliminar)
-        self.root.treeview.delete(focused)
-        self.root.label_mensaje['text'] = "Se dio de baja el registro: " + str(id_a_eliminar)
-        self._resetear_inputs()
+        try:
+            focused = self.root.treeview.focus()
+            id_a_eliminar = self.root.treeview.item(focused)['text']
+            self.controller.delete_product(id_a_eliminar)
+            self.root.treeview.delete(focused)
+            self.root.label_mensaje['text'] = "Se dio de baja el registro: " + str(id_a_eliminar)
+            self._resetear_inputs()
+        except Exception:
+            self.root.label_mensaje['text'] = "Se ha producido un error al eliminar, intente nuevamente."
 
     def _edit_product(self):
         focused = self.root.treeview.focus()
@@ -208,13 +217,16 @@ class View():
                         self.root.label_mensaje_ref)
 
         if (valida_tipo and valida_modelo and valida_ref):
-            self.controller.update_product(
-                id_a_modificar,
-                self.root.var_tipo.get(),
-                self.root.var_modelo.get(),
-                self.root.var_ref.get()
-            )
-            self._update_treeview()
-            self.root.label_mensaje['text'] = "Actualización del Dispositivo " + str(id_a_modificar) + " exitosa"
+            try:
+                self.controller.update_product(
+                    id_a_modificar,
+                    self.root.var_tipo.get(),
+                    self.root.var_modelo.get(),
+                    self.root.var_ref.get()
+                )
+                self._update_treeview()
+                self.root.label_mensaje['text'] = "Actualización del Dispositivo " + str(id_a_modificar) + " exitosa"
+            except Exception:
+                self.root.label_mensaje['text'] = "Se ha producido un error al actualizar, intente nuevamente."
         else:
             self.root.label_mensaje['text'] = "Error en los datos ingresados, intente nuevamente."
