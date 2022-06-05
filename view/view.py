@@ -78,8 +78,7 @@ class View():
         self.root.treeview["columns"] = (
                                         "tipo",
                                         "modelo",
-                                        "referencia",
-                                        "fecha")
+                                        "referencia")
 
         self.root.treeview.column("#0", width=50, minwidth=50, anchor='w')
         self.root.treeview.column("tipo", width=80, minwidth=80, anchor='w')
@@ -91,12 +90,11 @@ class View():
                                 minwidth=100,
                                 anchor='w')
 
-        self.root.treeview.column("fecha", width=150, minwidth=100, anchor='w')
         self.root.treeview.heading("#0", text="Id")
         self.root.treeview.heading("tipo", text="Tipo")
         self.root.treeview.heading("modelo", text="Modelo")
         self.root.treeview.heading("referencia", text="Referencia")
-        self.root.treeview.heading("fecha", text="Fecha")
+        # self.root.treeview.heading("fecha", text="Fecha")
 
         self.root.treeview.grid(column=1, row=5, columnspan=4)
 
@@ -161,7 +159,6 @@ class View():
                     resultado.type,  # tipo
                     resultado.model,  # modelo
                     resultado.reference  # referencia
-                    # resultado[4]  # fecha_insert
                 )
             )
 
@@ -176,12 +173,10 @@ class View():
                         self.root.var_ref.get(),
                         self.root.label_mensaje_ref)
         if (valida_tipo and valida_modelo and valida_ref):
-            # fecha_ingeso = date.datetime.now()
             self.controller.insert_product(
                 self.root.var_tipo.get(),
                 self.root.var_modelo.get(),
                 self.root.var_ref.get()
-                # fecha_ingeso
             )
             self._update_treeview()
             self.root.label_mensaje['text'] = "Ingreso de Dispositivo exitoso"

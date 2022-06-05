@@ -1,7 +1,6 @@
 from model.base_model import BaseModel
 from peewee import AutoField
 from peewee import CharField
-# from peewee import DateTimeField
 
 
 class Product(BaseModel):
@@ -9,7 +8,6 @@ class Product(BaseModel):
     type = CharField()
     model = CharField()
     reference = CharField()
-    # insert = DateTimeField()
 
     @staticmethod
     def get_products():
@@ -27,7 +25,6 @@ class Product(BaseModel):
         product.type = p_type
         product.model = p_model
         product.reference = p_reference
-        # product.insert = p_date
         product.save()
 
     @staticmethod
