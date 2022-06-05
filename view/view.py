@@ -6,7 +6,6 @@ from tkinter import StringVar
 from tkinter import Button
 from utils.validator import Validator
 import tkinter.font as tkFont
-# import datetime as date
 
 
 class View():
@@ -94,7 +93,6 @@ class View():
         self.root.treeview.heading("tipo", text="Tipo")
         self.root.treeview.heading("modelo", text="Modelo")
         self.root.treeview.heading("referencia", text="Referencia")
-        # self.root.treeview.heading("fecha", text="Fecha")
 
         self.root.treeview.grid(column=1, row=5, columnspan=4)
 
