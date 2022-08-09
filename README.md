@@ -7,4 +7,5 @@ Integrantes:
     De Bonis Christian
     Ibarra Yoel
     Medina Iván
+    Rodriguez, Leonel
     Samudio Leandro
