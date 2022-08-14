@@ -1,6 +1,12 @@
 from model.base_model import BaseModel
 from peewee import AutoField
 from peewee import CharField
+"""
+Esto debería ir para que herede de Sujeto
+from observer import Sujeto
+class Product(BaseModel, Sujeto):
+"""
+
 
 
 class Product(BaseModel):

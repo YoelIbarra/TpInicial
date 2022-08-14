@@ -19,12 +19,15 @@ class Controller():
         return self.model.get_products()
 
     def insert_product(self, tipo, modelo, referencia):
+        """
+        Ejemplo de uso de lo que es el Logging, esto se deberá hacer desde el archivo observer.py que esta dentro de los modelos. Ahí esta explicada la idea.
         try:
             self.model.insert_product(tipo, modelo, referencia)
             logging.info("Se inserto el producto de tipo %s y modelo %s",tipo,modelo)
         except:
             logging.error("no se inserto nada")
-
+        """
+        self.model.insert_product(tipo, modelo, referencia)
 
     def delete_product(self, product_id):
         self.model.delete_product(product_id)
