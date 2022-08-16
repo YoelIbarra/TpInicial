@@ -147,11 +147,8 @@ class View():
     def _update_treeview(self):
         try:
             resultados = self.controller.get_registers()
-        except:
-            self.root.label_mensaje['text'] = "error en el get"
-        for item in self.root.treeview.get_children():
+            for item in self.root.treeview.get_children():
                 self.root.treeview.delete(item)
-        try:
             for resultado in resultados:
                 self.root.treeview.insert(
                     "",
@@ -183,7 +180,6 @@ class View():
                     self.root.var_modelo.get(),
                     self.root.var_ref.get()
                 )
-                
                 self._update_treeview()
                 self.root.label_mensaje['text'] = "Ingreso de Dispositivo exitoso"
                 self._resetear_inputs()
