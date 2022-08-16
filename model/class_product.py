@@ -1,19 +1,16 @@
 from model.base_model import BaseModel
 from peewee import AutoField
 from peewee import CharField
-"""
-Esto debería ir para que herede de Sujeto
-from observer import Sujeto
-class Product(BaseModel, Sujeto):
-"""
+from model.observer import ConcreteObserverA
+from model.observer import Sujeto
 
+class Product(Sujeto, BaseModel):    
 
-
-class Product(BaseModel):
     id = AutoField()
     type = CharField()
     model = CharField()
     reference = CharField()
+
 
     @staticmethod
     def get_products():
@@ -26,15 +23,17 @@ class Product(BaseModel):
         return result
 
     @staticmethod
-    def insert_product(p_type, p_model, p_reference):
+    def insert_product(self, p_type, p_model, p_reference):
         product = Product()
         product.type = p_type
         product.model = p_model
         product.reference = p_reference
         product.save()
+        self.notificar(0)
+        return product
 
     @staticmethod
-    def update_product(id, p_type, p_model, p_reference):
+    def update_product(self, id, p_type, p_model, p_reference):
         product = Product.get_product_id(id)
         if (p_type != ""):
             product.type = p_type
@@ -43,8 +42,12 @@ class Product(BaseModel):
         if (p_reference != ""):
             product.reference = p_reference
         product.save()
+        self.notificar(1)
+        return product
 
     @staticmethod
-    def delete_product(id):
+    def delete_product(self, id):
         product = Product.get_product_id(id)
+        self.notificar(2)
         product.delete_instance()
+        
