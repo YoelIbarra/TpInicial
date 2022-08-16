@@ -1,6 +1,7 @@
 from view.view import View
 from model.class_product import Product
 import model.db_config
+from model.observer import ConcreteObserverA
 
 
 class Controller():
@@ -8,6 +9,7 @@ class Controller():
     def __init__(self):
         self.model = Product()
         self.view = View(self)
+        self.observador = ConcreteObserverA(self.view)
 
     def show_view(self):
         self.view.show_view()

@@ -6,9 +6,10 @@ from tkinter import StringVar
 from tkinter import Button
 from utils.validator import Validator
 import tkinter.font as tkFont
+from model.observer import Sujeto
 
 
-class View():
+class View(Sujeto):
 
     def __init__(self, controller):
 
@@ -160,6 +161,7 @@ class View():
                         resultado.reference  # referencia
                     )
                 )
+                
         except Exception:
             self.root.label_mensaje['text'] = "Se ha producido un error, intente nuevamente"
 
@@ -184,6 +186,7 @@ class View():
                 self.root.label_mensaje['text'] = "Ingreso de Dispositivo exitoso"
                 self._resetear_inputs()
                 self._resetear_labels()
+                self.notificar("insert")
             except Exception:
                 self.root.label_mensaje['text'] = "Se ha producido un error al ingresar un producto, intente nuevamente."
         else:
@@ -197,6 +200,7 @@ class View():
             self.root.treeview.delete(focused)
             self.root.label_mensaje['text'] = "Se dio de baja el registro: " + str(id_a_eliminar)
             self._resetear_inputs()
+            self.notificar("delete")
         except Exception:
             self.root.label_mensaje['text'] = "Se ha producido un error al eliminar, intente nuevamente."
 
@@ -224,6 +228,7 @@ class View():
                 )
                 self._update_treeview()
                 self.root.label_mensaje['text'] = "Actualización del Dispositivo " + str(id_a_modificar) + " exitosa"
+                self.notificar("update")
             except Exception:
                 self.root.label_mensaje['text'] = "Se ha producido un error al actualizar, intente nuevamente."
         else:
