@@ -1,5 +1,6 @@
 import logging
-logging.basicConfig(filename='controller.log',level="DEBUG")
+logging.basicConfig(filename='controller.log', level="DEBUG")
+
 
 class Sujeto:
 

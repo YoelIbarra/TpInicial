@@ -127,6 +127,7 @@ class View(Sujeto):
         self.root.treeview.bind("<ButtonRelease-1>", self._on_tree_row_clicked)
         self._update_treeview()
 
+    # Actualiza los inputs
     def _on_tree_row_clicked(self, event):
         focused = self.root.treeview.focus()
         valores = self.root.treeview.item(focused)['values']
@@ -135,16 +136,19 @@ class View(Sujeto):
         self.root.var_modelo.set(valores[1])
         self.root.var_ref.set(valores[2])
 
+    # Limpia los inputs
     def _resetear_inputs(self):
         self.root.var_tipo.set('')
         self.root.var_modelo.set('')
         self.root.var_ref.set('')
 
+    # Limpia los mensajes de pantalla
     def _resetear_labels(self):
         self.root.label_mensaje_tipo['text'] = ''
         self.root.label_mensaje_modelo['text'] = ''
         self.root.label_mensaje_ref['text'] = ''
 
+    # Actualiza el treeview
     def _update_treeview(self):
         try:
             resultados = self.controller.get_registers()
@@ -161,20 +165,20 @@ class View(Sujeto):
                         resultado.reference  # referencia
                     )
                 )
-                
         except Exception:
-            self.root.label_mensaje['text'] = "Se ha producido un error, intente nuevamente"
+            self.root.label_mensaje['text'] = "Se ha producido un error, intente nuevamente."
 
+    # Realiza el alta de producto
     def _create_product(self):
         valida_tipo = self.validator.has_numbers_validation(
-                        self.root.var_tipo.get(),
-                        self.root.label_mensaje_tipo)
+                          self.root.var_tipo.get(),
+                          self.root.label_mensaje_tipo)
         valida_modelo = self.validator.empty_field_validation(
-                        self.root.var_modelo.get(),
-                        self.root.label_mensaje_modelo)
+                          self.root.var_modelo.get(),
+                          self.root.label_mensaje_modelo)
         valida_ref = self.validator.empty_field_validation(
-                        self.root.var_ref.get(),
-                        self.root.label_mensaje_ref)
+                          self.root.var_ref.get(),
+                          self.root.label_mensaje_ref)
         if (valida_tipo and valida_modelo and valida_ref):
             try:
                 self.controller.insert_product(
@@ -183,15 +187,16 @@ class View(Sujeto):
                     self.root.var_ref.get()
                 )
                 self._update_treeview()
-                self.root.label_mensaje['text'] = "Ingreso de Dispositivo exitoso"
+                self.root.label_mensaje['text'] = "Ingreso de Dispositivo exitoso."
                 self._resetear_inputs()
                 self._resetear_labels()
                 self.notificar("insert")
             except Exception:
                 self.root.label_mensaje['text'] = "Se ha producido un error al ingresar un producto, intente nuevamente."
         else:
-            self.root.label_mensaje['text'] = "Error en los datos ingresados, intente nuevamente"
+            self.root.label_mensaje['text'] = "Error en los datos ingresados, intente nuevamente."
 
+    # Realiza la baja de producto
     def _delete_product(self):
         try:
             focused = self.root.treeview.focus()
@@ -204,6 +209,7 @@ class View(Sujeto):
         except Exception:
             self.root.label_mensaje['text'] = "Se ha producido un error al eliminar, intente nuevamente."
 
+    # Realiza la modificación de producto
     def _edit_product(self):
         focused = self.root.treeview.focus()
         id_a_modificar = self.root.treeview.item(focused)['text']
@@ -227,7 +233,7 @@ class View(Sujeto):
                     self.root.var_ref.get()
                 )
                 self._update_treeview()
-                self.root.label_mensaje['text'] = "Actualización del Dispositivo " + str(id_a_modificar) + " exitosa"
+                self.root.label_mensaje['text'] = "Actualización del Dispositivo " + str(id_a_modificar) + " exitosa."
                 self.notificar("update")
             except Exception:
                 self.root.label_mensaje['text'] = "Se ha producido un error al actualizar, intente nuevamente."
